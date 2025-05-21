@@ -1,69 +1,32 @@
-# Gaussian Splat Alignment in Visible Space
+# R2Gaussian Renders in Blender
 
-This branch is for aligning R2Gaussian and Gaussian Splat using manual points picked in cloud compare, It generates files that utils/apply_transform.py can use to apply the transformation to the Gaussian splats. The transformation is applied to the Gaussian splats in the `gaussian_splatting_lightning` repository. The code is not yet fully functional, but it serves as a starting point for future work.
-This project focuses on aligning two Gaussian splats within either the visible or X-ray domain. The current implementation supports alignment of two 3DGS datasets in the visible RGB space. This work was conducted while affiliated with the National Institute of Informatics.
-
-## Steps
-
-**Note:** The query map is always denoted with a subscript of **2**, while the closest map is denoted with a subscript of **1**.
-
-### 1. Extract Frames from the Video
-Run `extract_img_frames.py` to extract image frames from the video.
-
-### 2. Run COLMAP
-- Define the path to the images and specify the output directory.
-- Set the camera model to **pinhole**.
-- Place images directly in the directory; **do not** create an `images` folder, as this may cause issues with dense reconstruction.
-- Ensure the directory structure follows this format. If necessary, create a folder named `0` and move the `.bin` files into it:
-
-```
-project/
-├── images/
-├── sparse/
-│   └── 0/
-│       ├── cameras.bin
-│       ├── images.bin
-│       └── points3d.bin
-├── stereo/
-├── db.db
-├── frame_0000.jpg
-├── frame_0001.jpg
-...
-├── frame_0042.jpg
-├── Fused.ply
-├── Fused.ply.vis
-├── run-colmap-geometric.sh
-└── run-colmap-photometric.sh
-```
-
-### 3. Retrieve the Closest Images
-Select a query image from **M2** $( I_{\text{query}}^{M2} )$ and run `image_retrieval_efficient_net_annoy.py` to find the closest corresponding images from **M1**.
-
-### 4. Project 3D Points onto the Closest Image
-Run `project_2_image.py` to project $X_1$ onto $I_{\text{close}}^{M1}$.
-
-### 5. Find Matching Points Between the Query and Closest Image
-- Run `calc_m2_X1.py` to detect matching points between $I_{\text{query}}^{M2}$ and the projected points in $I_{\text{close}}^{M1}$.
-- The script first detects feature matches between `image_query` and `image_closest`. It then filters matches that are within a 5-pixel distance from the projected points and uses these correspondences to estimate $X$ for the Perspective-n-Point (PnP) problem.
-
-### 6. Estimate Scale
-Run `scale_pcd.py` to estimate the scaling factor for **M2**. At least one pair of query and closest images is required to compute this. Since the camera poses in both maps are known, the ratio of distances between the camera centers provides the scaling factor.
-
-### 7. Estimate Transformation Using PnP
-Run `global_reg.py` to estimate the rotation and translation vectors. *(Further testing is required, as results are inconsistent.)*
-
-### 8. Refine Transformation Using ICP
-Run `fine_reg.py` to refine the rotation and translation vectors using Iterative Closest Point (ICP). *(Results are dependent on threshold values; further validation is needed.)*
+* This branch is for aligning R2Gaussians with a 3D model of an object (Stanford Bunny) using manual points picked in cloud compare.
+* It generates files that utils/apply_transform.py can use to apply the transformation to the R2Gaussian. 
+* The transformation is applied to the Gaussian splats in the `gaussian_splatting_lightning` repository.
+* This work was conducted while affiliated with the National Institute of Informatics.
 
 ---
 
-## To-Do List
-
-- **Potential Accuracy Improvement**: Average out the scale (scalar), the rotation and translation vectors from multiple query images to improve accuracy.
-- **Verify Scaling Factor:** The manually measured scaling factor between `2_b` and `1_b` datasets is approximately **3.262**, but the computed value is around **1**. Further investigation is required.
-- ~~**Apply Transformation to Gaussian Splats:**~~ Implemented under `gaussian_splatting-lightning` in `apply_transform.py`. Link: [apply_transform.py](https://github.com/RishabhBajaj25/gaussian-splatting-lightning/blob/main/utils/apply_transform.py).
+## Working in Blender
+1. This part of the project is done in collaboration with [Watanabe Lab](https://www.vision.ict.e.titech.ac.jp/).
+2. The project starts with a 3D model of an object (Stanford Bunny) and a blender file containing stereo cameras. The blender file is provided by Watanabe Lab.
+3. The goal is to align the R2Gaussian with the 3D model using manual points picked in cloud compare.
+4. After this alignment, we can generate stereo image renders which can be used for projection mapping and visualizing the internal structure onto a 3D printed object (of the Stanford Bunny).
+4. **Export 3D mesh from blender**: Export the 3D model from Blender in `.ply` format. This will be used for alignment with R2Gaussian in CloudCompare.
+5. **Convert mesh to point cloud**: This can be done in either meshlab or CloudCompare. The point cloud makes it easier to visualize the alignment with R2Gaussian.
+6. **Pick points in CloudCompare**: Use CloudCompare to pick points on the 3D model and the R2Gaussian. This will help in aligning the two datasets.
+7. **Save the scale and transformation**: After picking the points, save the scale and transformation parameters (manually). 
+8. **Estimate Scale**: Either make a file `scale.txt` and manually paste the scale obtained from CloudCompare here OR Run `scale_pcd.py` to generate the txt file.
+9. **Estimate Transformation Using PnP**: Run `global_reg.py` to generate the files for the transformation. This will be run with `gaussian_splatting_lightning` repository.
+10. **Refine Transformation Using ICP**: Run `fine_reg.py` to generate using Iterative Closest Point (ICP). In this case, this transformation doesn't exist, so it needs to be set as `I` since no ICP is done in case of manual alignment using CloudCompare. Still this file needs to be generated to be used 
+11. Once these files are generated, head to `gaussian_splatting_lightning` [repository](https://github.com/RishabhBajaj25/gaussian-splatting-lightning) and run `apply_transform.py` [script](https://github.com/RishabhBajaj25/gaussian-splatting-lightning/blob/main/utils/apply_transform.py) to apply the transformation to the R2Gaussian. This will align the R2Gaussian with the 3D model of the object.
+12. **Convert algined R2Gaussian to 3DGS**: Use the file in `r2_gaussian` [repository](https://github.com/RishabhBajaj25/r2_gaussian) to convert the aligned R2Gaussian to 3DGS format. This will allow you to visualize the aligned R2Gaussian in 3DGS viewer.
+13. Install Blender plugin for 3DGS: Install Kiri's 3DGS plugin for Blender from [here](https://www.kiriengine.app/blender-addon/3dgs-render). This will allow you to visualize the aligned R2Gaussian in Blender.
+14. **Import the file generated from step 12 **: Import the aligned R2Gaussian file into Blender and adjust the colors and lighting to enhance the visualization. 
+15. Render images as pleased. Enjoy!
 
 ---
+
 
 ## Additional Tools
 
