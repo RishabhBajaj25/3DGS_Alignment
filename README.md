@@ -18,11 +18,11 @@
 7. **Save the scale and transformation**: After picking the points, save the scale and transformation parameters (manually). 
 8. **Estimate Scale**: Either make a file `scale.txt` and manually paste the scale obtained from CloudCompare here OR Run `scale_pcd.py` to generate the txt file.
 9. **Estimate Transformation Using PnP**: Run `global_reg.py` to generate the files for the transformation. This will be run with `gaussian_splatting_lightning` repository.
-10. **Refine Transformation Using ICP**: Run `fine_reg.py` to generate using Iterative Closest Point (ICP). In this case, this transformation doesn't exist, so it needs to be set as `I` since no ICP is done in case of manual alignment using CloudCompare. Still this file needs to be generated to be used 
-11. Once these files are generated, head to `gaussian_splatting_lightning` [repository](https://github.com/RishabhBajaj25/gaussian-splatting-lightning) and run `apply_transform.py` [script](https://github.com/RishabhBajaj25/gaussian-splatting-lightning/blob/main/utils/apply_transform.py) to apply the transformation to the R2Gaussian. This will align the R2Gaussian with the 3D model of the object.
+10. **Refine Transformation Using ICP**: Run `fine_reg.py` to generate using Iterative Closest Point (ICP). In this case, this transformation doesn't exist, so it needs to be set as $I$ since no ICP is done in case of manual alignment using CloudCompare. Still this file needs to be generated.
+11. **Apply transformation to the splat**: Once these files are generated, head to `gaussian_splatting_lightning` [repository](https://github.com/RishabhBajaj25/gaussian-splatting-lightning) and run `apply_transform.py` [script](https://github.com/RishabhBajaj25/gaussian-splatting-lightning/blob/main/utils/apply_transform.py) to apply the transformation to the R2Gaussian. This will align the R2Gaussian with the 3D model of the object.
 12. **Convert algined R2Gaussian to 3DGS**: Use the file in `r2_gaussian` [repository](https://github.com/RishabhBajaj25/r2_gaussian) to convert the aligned R2Gaussian to 3DGS format. This will allow you to visualize the aligned R2Gaussian in 3DGS viewer.
-13. Install Blender plugin for 3DGS: Install Kiri's 3DGS plugin for Blender from [here](https://www.kiriengine.app/blender-addon/3dgs-render). This will allow you to visualize the aligned R2Gaussian in Blender.
-14. **Import the file generated from step 12 **: Import the aligned R2Gaussian file into Blender and adjust the colors and lighting to enhance the visualization. 
+13. **Install Blender plugin for 3DGS****: Install Kiri's 3DGS plugin for Blender from [here](https://www.kiriengine.app/blender-addon/3dgs-render). This will allow you to visualize the aligned R2Gaussian in Blender.
+14. **Import the file generated from step** 12**: Import the aligned R2Gaussian file into Blender and adjust the colors and lighting to enhance the visualization. 
 15. Render images as pleased. Enjoy!
 
 ---
