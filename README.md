@@ -81,7 +81,13 @@ This project uses the following tools:
    * Color settings: Brightness: 0.8, Contrast: 4.0, Hue: 0.7, Saturation 1.0
 
 19. **Final Render:**
-   Render images as pleased. Enjoy!
+   Render the left/right eye disparity images as pleased. these images can be sent to Watanabe lab to be used for projection mapping. Enjoy!
+
+20. **Create anaglyph images:**
+    Once the images have been rendered, use `create_single anaglyph` [here](https://github.com/RishabhBajaj25/3DGS_PoseRender/blob/main/create_single_anaglyph.py) to create red/cyan anaglyph image which can help perceive depth using the old school 3D glasses.
+
+21. ** Create stereo images:**
+    Use the `create_stereo_img_from_blender.py` [here](https://github.com/RishabhBajaj25/3DGS_PoseRender/blob/main/create_stereo_img_from_blender.py) script to create stereo images. Using this stereo image, the depth effect can be perceived without projection mapping. Use these images and import them to [VaR's VR Video Player](https://play.google.com/store/apps/details?id=com.abg.VRVideoPlayer&hl=en) android app and use it with the VR viewer glasses and phone.
 
 ---
 
