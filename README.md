@@ -1,6 +1,6 @@
 # R2Gaussian Renders in Blender
 
-This branch is for aligning R2Gaussians with a 3D model of an object and visualizing the X-ray by using 3D projection mapping. It generates files that `utils/apply_transform.py` can use to apply the transformation to the R2Gaussian. The transformation is applied to the Gaussian splats in the [`gaussian_splatting_lightning`](https://github.com/RishabhBajaj25/gaussian-splatting-lightning) repository. This work was conducted while affiliated with the National Institute of Informatics in collaboration with [Watanabe Lab](https://www.vision.ict.e.titech.ac.jp/).
+This branch is for aligning R2Gaussians with a 3D model of an object and visualizing the X-ray by using 3D projection mapping. It generates files that `utils/apply_transform.py` in the [`gaussian_splatting_lightning`](https://github.com/RishabhBajaj25/gaussian-splatting-lightning) repo can use to apply the transformation to the R2Gaussian. This work was conducted while affiliated with the National Institute of Informatics in collaboration with [Watanabe Lab](https://www.vision.ict.e.titech.ac.jp/).
 
 There can be two cases to use and generate files from this branch:
 - **Case 1**: When the X-ray and visual RGB data is taken of the same exact object, alignment can be performed using manual points picked in CloudCompare before using projections.
