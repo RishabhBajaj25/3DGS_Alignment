@@ -86,7 +86,7 @@ This project uses the following tools:
 20. **Create anaglyph images:**
     Once the images have been rendered, use `create_single anaglyph` [here](https://github.com/RishabhBajaj25/3DGS_PoseRender/blob/main/create_single_anaglyph.py) to create red/cyan anaglyph image which can help perceive depth using the old school 3D glasses.
 
-21. ** Create stereo images:**
+21. **Create stereo images:**
     Use the `create_stereo_img_from_blender.py` [here](https://github.com/RishabhBajaj25/3DGS_PoseRender/blob/main/create_stereo_img_from_blender.py) script to create stereo images. Using this stereo image, the depth effect can be perceived without projection mapping. Use these images and import them to [VaR's VR Video Player](https://play.google.com/store/apps/details?id=com.abg.VRVideoPlayer&hl=en) android app and use it with the VR viewer glasses and phone.
 
 ---
@@ -103,7 +103,7 @@ This project uses the following tools:
   Manually transform the R2Gaussian in blender to make it align with the 3D model of the object.
 
 4. **Render:**
-  Render using the settings mentioned in step 18.
+  Render using the settings mentioned in step 18. Follow steps 19, 20, and 21 from Case 1 to create anaglyph and stereo images.
 
 ---
 
